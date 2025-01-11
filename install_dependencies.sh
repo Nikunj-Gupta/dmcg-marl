@@ -1,8 +1,8 @@
 #!/bin/bash
 # Install PyTorch and Python Packages
 
-# conda create -n dcg python=3.11 -y
-# conda activate dcg
+# conda create -n dmcg python=3.11 -y
+# conda activate dmcg
 
 conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia -y 
 pip install git+https://github.com/oxwhirl/smacv2.git 
