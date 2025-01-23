@@ -9,9 +9,9 @@ This is the code of the implementations of the Deep Meta Coordination Graphs for
 The code is based on the python/pytorch frameworks [PyMARL](https://github.com/oxwhirl/pymarl), [PyMARL2](https://github.com/hijkzzz/pymarl2) and [DCG](https://github.com/wendelinboehmer/dcg). 
 
 ## Abstract 
-This paper presents deep meta coordination graphs (DMCG) for learning cooperative policies in multi-agent reinforcement learning (MARL). Coordination graph formulations encode local interactions and accordingly factorize the joint value function of all agents to improve efficiency in MARL. However, existing approaches rely solely on pairwise relations between agents, which potentially oversimplifies complex multi-agent interactions. DMCG goes beyond these simple direct interactions by also capturing useful indirect or higher-order relationships among agents. It generates novel graph structures accommodating multiple types of interactions and an arbitrary length of multi-hop connections in coordination graphs to model higher-order interactions among agents. It then employs a graph convolutional network module to learn powerful representations in an end-to-end fashion. We demonstrate its effectiveness in multiple coordination problems in MARL where other state-of-the-art methods either suffer from sample inefficiency or fail entirely. In an additional ablation study, we also show the influence of varying graph topologies in DMCG. 
+This paper presents deep meta coordination graphs (DMCG) for learning cooperative policies in multi-agent reinforcement learning (MARL). Coordination graph formulations encode local interactions and accordingly factorize the joint value function of all agents to improve efficiency in MARL. However, existing approaches rely solely on pairwise relations between agents, which potentially oversimplifies complex multi-agent interactions. DMCG goes beyond these simple direct interactions by also capturing useful higher-order and indirect relationships among agents. It generates novel graph structures accommodating multiple types of interactions and arbitrary lengths of multi-hop connections in coordination graphs to model such interactions. It then employs a graph convolutional network module to learn powerful representations in an end-to-end manner. We demonstrate its effectiveness in multiple coordination problems in MARL where other state-of-the-art methods can suffer from sample inefficiency or fail entirely. 
 
-![alt text](assets/dmcg_framework.png "Title")
+![alt text](assets/dmcg.png "Title")
 Figure 1: Illustration of Deep meta coordination graphs (DMCG) for learning cooperative policies in MARL. The diagram shows how the approach captures and adapts to multiple types of interactions among agents, including higher-order and indirect relationships, and generates new graph structures by exploring dynamic interactions, even among initially unconnected agents. 
   
 ## Installation instructions  
@@ -75,13 +75,13 @@ As in the PyMARL/PyMARL2/DCG framework, all experiments are run like this:
 python3 src/main.py --config=dmcg --env-config=$ENV with $PARAMS 
 ```  
 
-Replace/Use `$ENV` = {gather, disperse, pursuit, hallway, sc2\_gen\_protoss} for replicating desired experiment. 
+Replace/Use `$ENV` = **{gather, disperse, pursuit, hallway, sc2\_gen\_protoss}** for replicating desired experiment. 
 
-We used `$PARAMS`: cg_edges={full, line, cycle, star} and seed={0,1,2,3} to produce the results presented in the paper. 
+We used `$PARAMS`: **cg_edges={full, line, cycle, star}** and **seed={0,1,2,3}** to produce the results presented in the paper. 
 
 All results will be stored in the `results` folder. The `sacred` logs containing the results will be stored as `json` files in the `results` folder. 
 
-## Some results 
+## Results 
 
 ![alt text](assets/maco_results.png "Title")
 Figure 3: Performance comparison of DMCG against other algorithms in the Gather, Disperse, Pursuit, and Hallway. The results highlight DMCG’s significant outperformance in Gather and Hallway, achieving near-perfect win rates and demonstrating superior sample efficiency. In Disperse, DMCG outperforms all methods while moderately surpassing DCG as well. In the more challenging Pursuit and Hallway tasks, DMCG effectively addresses issues like relative overgeneralization and miscoordination, proving its robustness in environments with partial observability and stochastic dynamics. 
