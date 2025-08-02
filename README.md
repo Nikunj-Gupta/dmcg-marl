@@ -7,7 +7,7 @@ The code is based on the python/pytorch frameworks [PyMARL](https://github.com/o
 
 This paper presents deep meta coordination graphs (DMCG) for learning cooperative policies in multi-agent reinforcement learning (MARL). Coordination graph formulations encode local interactions and accordingly factorize the joint value function of all agents to improve efficiency in MARL. However, existing approaches rely solely on pairwise relations between agents, which potentially oversimplifies complex multi-agent interactions. DMCG goes beyond these simple direct interactions by also capturing useful higher-order and indirect relationships among agents. It generates novel graph structures accommodating multiple types of interactions and arbitrary lengths of multi-hop connections in coordination graphs to model such interactions. It then employs a graph convolutional network module to learn powerful representations in an end-to-end manner. We demonstrate its effectiveness in multiple coordination problems in MARL where other state-of-the-art methods can suffer from sample inefficiency or fail entirely. 
 
-![alt text](assets/dmcg.png "Title")
+![alt text](assets/dmcg-new.png "Title")
 Figure 1: Illustration of Deep meta coordination graphs (DMCG) for learning cooperative policies in MARL. The diagram shows how the approach captures and adapts to multiple types of interactions among agents, including higher-order and indirect relationships, and generates new graph structures by exploring dynamic interactions, even among initially unconnected agents. 
   
 ## Installation instructions  
