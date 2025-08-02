@@ -79,5 +79,5 @@ All results will be stored in the `results` folder. The `sacred` logs containing
 
 ## Results 
 
-![alt text](assets/maco_results.png "Title")
+![alt text](assets/maco_sota.png "Title")
 Figure 3: Performance comparison of DMCG against other algorithms in the Gather, Disperse, Pursuit, and Hallway. The results highlight DMCG’s significant outperformance in Gather and Hallway, achieving near-perfect win rates and demonstrating superior sample efficiency. In Disperse, DMCG outperforms all methods while moderately surpassing DCG as well. In the more challenging Pursuit and Hallway tasks, DMCG effectively addresses issues like relative overgeneralization and miscoordination, proving its robustness in environments with partial observability and stochastic dynamics. 
