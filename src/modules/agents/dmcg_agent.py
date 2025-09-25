@@ -11,19 +11,23 @@ from torch_geometric.data import Data as gData
 from torch_geometric.data import Batch
 
 class GNN(nn.Module):
-    def __init__(self, in_channels=1024, out_channels=1024, num_nodes=None, cg_edges=None):
+    def __init__(self, in_channels=1024, out_channels=1024, num_nodes=None, cg_edges=None, num_channels=None, num_edge=None, num_layers=None):
         super().__init__()
         self.N = num_nodes 
         # self.feature_norm = nn.LayerNorm(in_channels)
         self.A = self.get_adjacency_matrix(type=cg_edges) 
+        # Interpret provided GTN parameters; default to sensible fallbacks
+        K = num_edge if num_edge is not None else self.N
+        o = num_channels if num_channels is not None else self.N
+        l = num_layers if num_layers is not None else self.N
         self.gnn = GTN(
-                       num_edge=self.N, 
-                       num_channels=self.N, 
-                       w_in=in_channels, 
-                       w_out=out_channels, 
-                       num_nodes=self.N, 
-                       num_layers=self.N
-                    )  
+            num_edge=K, 
+            num_channels=o, 
+            w_in=in_channels, 
+            w_out=out_channels, 
+            num_nodes=self.N, 
+            num_layers=l,
+        )  
 
     def get_edge_index(self, type="star"): # need an initial graph construction 
         if type == "line": 
@@ -72,7 +76,11 @@ class DMCGAgent(nn.Module):
         self.cg_edges = args.cg_edges 
 
         print(f"Using {self.agent} Agent") 
-        self.gnn = GNN(input_shape, args.rnn_hidden_dim, num_nodes=args.n_agents, cg_edges=self.cg_edges) 
+        # Read GTN ablation flags from args (K,o,l and composition). Fall back to None to let GNN choose defaults.
+        K = getattr(args, 'gtn_K', None)
+        o = getattr(args, 'gtn_o', None)
+        l = getattr(args, 'gtn_l', None)
+        self.gnn = GNN(input_shape, args.rnn_hidden_dim, num_nodes=args.n_agents, cg_edges=self.cg_edges, num_channels=o, num_edge=K, num_layers=l, composition=comp)
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
         self.fc2 = nn.Linear(args.rnn_hidden_dim, args.n_actions)
 

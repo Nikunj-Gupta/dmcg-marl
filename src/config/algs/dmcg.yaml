@@ -20,6 +20,14 @@ msg_anytime: True             # Anytime extension of greedy action selection (Ko
 msg_iterations: 8             # Number of message passes in greedy action selection
 msg_normalized: True          # Message normalization during greedy action selection (Kok and Vlassis, 2006)
 
+# GTN / meta-graph ablation options
+# K: number of base relations (num_edge)
+gtn_K: null                  # If null, defaults to the number of adjacency matrices provided (usually n_agents)
+# o: number of meta-relation channels (num_channels)
+gtn_o: null                  # If null, defaults to the number of agents
+# l: number of GTN layers (num_layers)
+gtn_l: null                  # If null, defaults to the number of agents
+
 # specify learner, controller and agent
 agent: "dmcg_feat"             # A RNN agent that returns its hidden state instead of its value
 agent_output_type: "q"        # The output format is Q-values

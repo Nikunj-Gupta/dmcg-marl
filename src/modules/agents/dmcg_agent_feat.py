@@ -11,20 +11,24 @@ from torch_geometric.data import Data as gData
 from torch_geometric.data import Batch
 
 class GNN(nn.Module):
-    def __init__(self, in_channels=1024, out_channels=1024, num_nodes=None, cg_edges=None, device="cpu"):
+    def __init__(self, in_channels=1024, out_channels=1024, num_nodes=None, cg_edges=None, device="cpu", num_channels=None, num_edge=None, num_layers=None, composition='product'):
         super().__init__()
         self.N = num_nodes 
         self.device = device 
         # self.feature_norm = nn.LayerNorm(in_channels)
         self.A = self.get_adjacency_matrix(type=cg_edges) 
+        K = num_edge if num_edge is not None else self.N
+        o = num_channels if num_channels is not None else self.N
+        l = num_layers if num_layers is not None else self.N
+
         self.gnn = GTN(
-                       num_edge=self.N, 
-                       num_channels=self.N, 
-                       w_in=in_channels, 
-                       w_out=out_channels, 
-                       num_nodes=self.N, 
-                       num_layers=self.N
-                    )  
+            num_edge=K, 
+            num_channels=o, 
+            w_in=in_channels, 
+            w_out=out_channels, 
+            num_nodes=self.N, 
+            num_layers=l,
+        ) 
 
     def get_edge_index(self, type="star"): # need an initial graph construction 
         if type == "line": 
@@ -75,7 +79,19 @@ class DMCGFeatureAgent(nn.Module):
 
         print(f"Using {self.agent} Agent") 
         self.fc1 = nn.Linear(input_shape, args.rnn_hidden_dim)
-        self.gnn = GNN(input_shape, args.rnn_hidden_dim, num_nodes=args.n_agents, cg_edges=self.cg_edges, device=device) 
+        K = getattr(args, 'gtn_K', None)
+        o = getattr(args, 'gtn_o', None)
+        l = getattr(args, 'gtn_l', None)
+        self.gnn = GNN(
+            input_shape, 
+            args.rnn_hidden_dim, 
+            num_nodes=args.n_agents, 
+            cg_edges=self.cg_edges, 
+            device=device, 
+            num_channels=o, 
+            num_edge=K, 
+            num_layers=l
+        ) 
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
 
     def init_hidden(self):
